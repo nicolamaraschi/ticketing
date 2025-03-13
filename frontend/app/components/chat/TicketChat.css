@@ -1,0 +1,51 @@
+.ticket-chat-card {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    max-height: 70vh;
+  }
+  
+  .ticket-chat-messages {
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .ticket-chat-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .loading-spinner {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 2px solid rgba(59, 130, 246, 0.2);
+    border-top-color: #3b82f6;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .ticket-chat-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #ef4444;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  @media (max-height: 768px) {
+    .ticket-chat-card {
+      height: 450px;
+    }
+  }

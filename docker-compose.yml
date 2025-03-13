@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:3001/api
+      - NEXT_PUBLIC_WS_URL=http://backend:3001
+    depends_on:
+      - backend
+    networks:
+      - ticketing-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=file:/app/prisma/dev.db
+      - PORT=3001
+      - JWT_SECRET=supersecret_jwt_key_change_in_production
+      - NODE_ENV=production
+    volumes:
+      - ./backend/prisma:/app/prisma
+    networks:
+      - ticketing-network
+
+networks:
+  ticketing-network:
+    driver: bridge

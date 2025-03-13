@@ -1,0 +1,129 @@
+.message-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-y: auto;
+    height: 100%;
+    max-height: calc(100% - 4rem); /* Height minus padding */
+  }
+  
+  .message-list-empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 8rem;
+  }
+  
+  .empty-message-text {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+  
+  .message-container {
+    display: flex;
+  }
+  
+  .message-self {
+    justify-content: flex-end;
+  }
+  
+  .message-other {
+    justify-content: flex-start;
+  }
+  
+  .message-bubble {
+    max-width: 80%;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+  
+  .message-bubble-self {
+    background-color: #3b82f6;
+    color: white;
+    border-top-right-radius: 0.25rem;
+  }
+  
+  .message-bubble-support {
+    background-color: #d1d5db;
+    color: #1f2937;
+    border-top-left-radius: 0.25rem;
+  }
+  
+  .message-bubble-client {
+    background-color: #f3f4f6;
+    color: #1f2937;
+    border-top-left-radius: 0.25rem;
+  }
+  
+  .message-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .message-sender {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+  
+  .sender-avatar {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5rem;
+  }
+  
+  .sender-avatar-support {
+    background-color: #d1fae5;
+    color: #047857;
+  }
+  
+  .sender-avatar-client {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+  }
+  
+  .sender-initials {
+    font-size: 0.625rem;
+    font-weight: 600;
+  }
+  
+  .sender-name {
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .message-text {
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+  
+  .message-time {
+    font-size: 0.625rem;
+    margin-top: 0.25rem;
+    text-align: right;
+    opacity: 0.7;
+  }
+  
+  /* Custom scrollbar for the message list */
+  .message-list::-webkit-scrollbar {
+    width: 0.375rem;
+  }
+  
+  .message-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .message-list::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 0.375rem;
+  }
+  
+  .message-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(107, 114, 128, 0.7);
+  }

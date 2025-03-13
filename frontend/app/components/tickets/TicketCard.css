@@ -1,0 +1,126 @@
+.ticket-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .ticket-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    padding: 1rem;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .ticket-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .ticket-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+  }
+  
+  .ticket-card-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1f2937;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 14rem;
+  }
+  
+  .ticket-card-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  
+  .ticket-card-body {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .ticket-card-description {
+    color: #4b5563;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+  }
+  
+  .ticket-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  .ticket-card-created-by {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-avatar {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    background-color: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5rem;
+  }
+  
+  .user-avatar span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #1d4ed8;
+  }
+  
+  .created-by-name {
+    font-size: 0.75rem;
+    color: #4b5563;
+  }
+  
+  .ticket-card-meta {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .meta-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  
+  .meta-icon {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.25rem;
+  }
+  
+  .ticket-card-assigned {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+  }
+  
+  .assigned-label {
+    margin-right: 0.25rem;
+  }
+  
+  .assigned-name {
+    font-weight: 500;
+    color: #4b5563;
+  }
