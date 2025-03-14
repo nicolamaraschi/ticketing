@@ -16,7 +16,16 @@ interface TicketChatProps {
 
 const TicketChat: React.FC<TicketChatProps> = ({ ticket }) => {
   const { user } = useAuth();
-  const { joinTicketRoom, leaveTicketRoom, sendMessage, startTyping, stopTyping, typingUsers } = useSocket();
+  const { 
+    joinTicketRoom, 
+    leaveTicketRoom, 
+    sendMessage, 
+    startTyping, 
+    stopTyping, 
+    typingUsers, 
+    socket,
+    isConnected 
+  } = useSocket();
   const [messages, setMessages] = useState<Message[]>(ticket.messages || []);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -76,6 +85,33 @@ const TicketChat: React.FC<TicketChatProps> = ({ ticket }) => {
       leaveTicketRoom(ticket.id);
     };
   }, [joinTicketRoom, leaveTicketRoom, ticket.id]);
+
+  // Listener per nuovi messaggi dal socket
+  useEffect(() => {
+    if (!socket || !isConnected) return;
+
+    // Handler per nuovi messaggi
+    const handleNewMessage = (message: Message) => {
+      if (message.ticketId === ticket.id) {
+        setMessages(prevMessages => {
+          // Verifica se il messaggio esiste già (per evitare duplicati)
+          const messageExists = prevMessages.some(m => m.id === message.id);
+          if (messageExists) {
+            return prevMessages;
+          }
+          return [...prevMessages, message];
+        });
+      }
+    };
+
+    // Ascolta l'evento 'message' dal server
+    socket.on('message', handleNewMessage);
+
+    // Pulizia del listener
+    return () => {
+      socket.off('message', handleNewMessage);
+    };
+  }, [socket, isConnected, ticket.id]);
 
   // Gestione invio messaggio
   const handleSendMessage = (content: string) => {
