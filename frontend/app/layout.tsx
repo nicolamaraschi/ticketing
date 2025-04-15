@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
+import BootstrapLoader from './components/BootstrapLoader';
 import React from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="it">
       <body className={inter.className}>
+        <BootstrapLoader />
         <AuthProvider>
           <SocketProvider>
             {children}

@@ -1,52 +1,14 @@
-.new-ticket-container {
-    min-height: 100vh;
-    background-color: #f1f5f9;
+.loading-spinner {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 3px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  .new-ticket-main {
-    max-width: 48rem;
-    margin: 0 auto;
-    padding: 1.5rem 0;
-  }
-  
-  .new-ticket-content {
-    padding: 1rem;
-  }
-  
-  .new-ticket-header {
-    margin-bottom: 1.5rem;
-  }
-  
-  .new-ticket-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #1f2937;
-  }
-  
-  .new-ticket-subtitle {
-    margin-top: 0.25rem;
-    color: #4b5563;
-  }
-  
-  .loading-page {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f1f5f9;
-  }
-  
-  .loading-spinner {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    border: 3px solid #e5e7eb;
-    border-top-color: #3b82f6;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
+}
