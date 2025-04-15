@@ -10,22 +10,29 @@ import { Message, Ticket } from '../../types';
 import { messagesApi } from '../../lib/api';
 import './TicketChat.css';
 
+// Definiamo un'interfaccia minima per il socket che richiede on/off.
+interface IOSocket {
+  on(event: string, listener: (...args: any[]) => void): this;
+  off(event: string, listener: (...args: any[]) => void): this;
+}
+
 interface TicketChatProps {
   ticket: Ticket;
 }
 
 const TicketChat: React.FC<TicketChatProps> = ({ ticket }) => {
   const { user } = useAuth();
-  const { 
-    joinTicketRoom, 
-    leaveTicketRoom, 
-    sendMessage, 
-    startTyping, 
-    stopTyping, 
-    typingUsers, 
+  const {
+    joinTicketRoom,
+    leaveTicketRoom,
+    sendMessage,
+    startTyping,
+    stopTyping,
+    typingUsers,
     socket,
-    isConnected 
+    isConnected
   } = useSocket();
+  
   const [messages, setMessages] = useState<Message[]>(ticket.messages || []);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,24 +44,20 @@ const TicketChat: React.FC<TicketChatProps> = ({ ticket }) => {
   const canSendMessages = () => {
     if (!user) return false;
     
-    // Se ticket è chiuso, nessuno può inviare messaggi
     if (ticket.status === 'CLOSED') return false;
     
-    // Se l'utente è cliente, può inviare messaggi solo ai suoi ticket
     if (user.role === 'CLIENT') {
       return ticket.createdBy.id === user.id;
     }
     
-    // Se l'utente è supporto, può inviare messaggi solo ai ticket assegnati o non assegnati
     if (user.role === 'SUPPORT') {
       return ticket.assignedTo?.id === user.id || !ticket.assignedTo;
     }
     
-    // Gli admin possono inviare messaggi a tutti i ticket
     return true;
   };
 
-  // Carica messaggi quando il componente si monta
+  // Carica i messaggi quando il componente si monta
   useEffect(() => {
     const fetchMessages = async () => {
       if (!ticket.messages) {
@@ -75,41 +78,34 @@ const TicketChat: React.FC<TicketChatProps> = ({ ticket }) => {
     fetchMessages();
   }, [ticket.id, ticket.messages]);
 
-  // Gestione WebSocket per la chat
+  // Gestione WebSocket: entra nella stanza del ticket e rimuovi il listener al cleanup
   useEffect(() => {
-    // Entra nella stanza del ticket
     joinTicketRoom(ticket.id);
-    
-    // Cleanup alla chiusura
     return () => {
       leaveTicketRoom(ticket.id);
     };
   }, [joinTicketRoom, leaveTicketRoom, ticket.id]);
 
-  // Listener per nuovi messaggi dal socket
+  // Listener per i nuovi messaggi dal socket
   useEffect(() => {
     if (!socket || !isConnected) return;
 
-    // Handler per nuovi messaggi
+    // Eseguiamo un cast passando per unknown per forzare il tipo.
+    const typedSocket = socket as unknown as IOSocket;
+
     const handleNewMessage = (message: Message) => {
       if (message.ticketId === ticket.id) {
         setMessages(prevMessages => {
-          // Verifica se il messaggio esiste già (per evitare duplicati)
           const messageExists = prevMessages.some(m => m.id === message.id);
-          if (messageExists) {
-            return prevMessages;
-          }
-          return [...prevMessages, message];
+          return messageExists ? prevMessages : [...prevMessages, message];
         });
       }
     };
 
-    // Ascolta l'evento 'message' dal server
-    socket.on('message', handleNewMessage);
+    typedSocket.on('message', handleNewMessage);
 
-    // Pulizia del listener
     return () => {
-      socket.off('message', handleNewMessage);
+      typedSocket.off('message', handleNewMessage);
     };
   }, [socket, isConnected, ticket.id]);
 
@@ -120,7 +116,7 @@ const TicketChat: React.FC<TicketChatProps> = ({ ticket }) => {
     }
   };
 
-  // Gestione eventi di digitazione
+  // Gestione digitazione
   const handleTyping = () => {
     startTyping(ticket.id);
   };
@@ -139,14 +135,12 @@ const TicketChat: React.FC<TicketChatProps> = ({ ticket }) => {
             <div className="loading-spinner"></div>
           </div>
         ) : error ? (
-          <div className="ticket-chat-error">
-            {error}
-          </div>
+          <div className="ticket-chat-error">{error}</div>
         ) : (
           <MessageList messages={messages} currentUser={user} />
         )}
       </div>
-      
+
       <MessageInput
         ticketId={ticket.id}
         onSendMessage={handleSendMessage}

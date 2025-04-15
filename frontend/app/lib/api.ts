@@ -38,48 +38,48 @@ export const ticketsApi = {
   getAll: async (status?: string): Promise<Ticket[]> => {
     try {
       const params = status ? { status } : {};
-      const response = await api.get('/tickets', { params });
-      return Array.isArray(response.data) ? response.data : [];
+      const response = await api.get<Ticket[]>('/tickets', { params });
+      return response.data;
     } catch (error) {
       console.error('Error fetching tickets:', error);
-      return []; // Restituisci un array vuoto in caso di errore
+      return [];
     }
   },
-  
+
   getById: async (id: string): Promise<Ticket | null> => {
     try {
-      const response = await api.get(`/tickets/${id}`);
-      return response.data || null;
+      const response = await api.get<Ticket>(`/tickets/${id}`);
+      return response.data;
     } catch (error) {
       console.error(`Error fetching ticket ${id}:`, error);
       return null;
     }
   },
-  
+
   create: async (data: { title: string; description: string; priority?: string }): Promise<Ticket | null> => {
     try {
-      const response = await api.post('/tickets', data);
-      return response.data || null;
+      const response = await api.post<Ticket>('/tickets', data);
+      return response.data;
     } catch (error) {
       console.error('Error creating ticket:', error);
       throw error;
     }
   },
-  
+
   updateStatus: async (id: string, status: string): Promise<Ticket | null> => {
     try {
-      const response = await api.patch(`/tickets/${id}/status`, { status });
-      return response.data || null;
+      const response = await api.patch<Ticket>(`/tickets/${id}/status`, { status });
+      return response.data;
     } catch (error) {
       console.error(`Error updating ticket ${id} status:`, error);
       throw error;
     }
   },
-  
+
   assign: async (id: string, assignedToId: string | null): Promise<Ticket | null> => {
     try {
-      const response = await api.patch(`/tickets/${id}/assign`, { assignedToId });
-      return response.data || null;
+      const response = await api.patch<Ticket>(`/tickets/${id}/assign`, { assignedToId });
+      return response.data;
     } catch (error) {
       console.error(`Error assigning ticket ${id}:`, error);
       throw error;
@@ -91,18 +91,18 @@ export const ticketsApi = {
 export const messagesApi = {
   getByTicketId: async (ticketId: string): Promise<Message[]> => {
     try {
-      const response = await api.get(`/messages/ticket/${ticketId}`);
-      return Array.isArray(response.data) ? response.data : [];
+      const response = await api.get<Message[]>(`/messages/ticket/${ticketId}`);
+      return response.data;
     } catch (error) {
       console.error(`Error fetching messages for ticket ${ticketId}:`, error);
       return [];
     }
   },
-  
+
   create: async (ticketId: string, content: string): Promise<Message | null> => {
     try {
-      const response = await api.post(`/messages/ticket/${ticketId}`, { content });
-      return response.data || null;
+      const response = await api.post<Message>(`/messages/ticket/${ticketId}`, { content });
+      return response.data;
     } catch (error) {
       console.error(`Error creating message for ticket ${ticketId}:`, error);
       throw error;
@@ -114,54 +114,54 @@ export const messagesApi = {
 export const usersApi = {
   getAll: async (): Promise<User[]> => {
     try {
-      const response = await api.get('/users');
-      return Array.isArray(response.data) ? response.data : [];
+      const response = await api.get<User[]>('/users');
+      return response.data;
     } catch (error) {
       console.error('Error fetching users:', error);
       return [];
     }
   },
-  
+
   getSupportUsers: async (): Promise<User[]> => {
     try {
-      const response = await api.get('/users/support');
-      return Array.isArray(response.data) ? response.data : [];
+      const response = await api.get<User[]>('/users/support');
+      return response.data;
     } catch (error) {
       console.error('Error fetching support users:', error);
       return [];
     }
   },
-  
+
   getById: async (id: string): Promise<User | null> => {
     try {
-      const response = await api.get(`/users/${id}`);
-      return response.data || null;
+      const response = await api.get<User>(`/users/${id}`);
+      return response.data;
     } catch (error) {
       console.error(`Error fetching user ${id}:`, error);
       return null;
     }
   },
-  
+
   create: async (userData: any): Promise<User | null> => {
     try {
-      const response = await api.post('/users', userData);
-      return response.data || null;
+      const response = await api.post<User>('/users', userData);
+      return response.data;
     } catch (error) {
       console.error('Error creating user:', error);
       throw error;
     }
   },
-  
+
   update: async (id: string, userData: any): Promise<User | null> => {
     try {
-      const response = await api.put(`/users/${id}`, userData);
-      return response.data || null;
+      const response = await api.put<User>(`/users/${id}`, userData);
+      return response.data;
     } catch (error) {
       console.error(`Error updating user ${id}:`, error);
       throw error;
     }
   },
-  
+
   delete: async (id: string): Promise<boolean> => {
     try {
       await api.delete(`/users/${id}`);
